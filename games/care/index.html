@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pixel Racer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        body {
+            background: linear-gradient(-45deg, 
+                #0f0c29, #302b63, #24243e, #1f1c3a,
+                #302b63, #0f0c29, #24243e, #1f1c3a
+            );
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #ffffff;
+            font-family: 'Press Start 2P', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #ffffff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            animation: float 3s linear infinite;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .game-container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .game-wrapper {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .side-panel {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 250px;
+            backdrop-filter: blur(10px);
+        }
+
+        .score-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .score-container div {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .control-row {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .control-btn {
+            background: rgba(255, 215, 0, 0.8);
+            border: none;
+            color: #000;
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 1.2em;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255, 215, 0, 1);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .game-board {
+            position: relative;
+            flex-grow: 1;
+            max-width: 800px;
+        }
+
+        #gameCanvas {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            image-rendering: pixelated;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1.2;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .menu {
+            text-align: center;
+            padding: 30px;
+            background: rgba(51, 51, 51, 0.9);
+            border-radius: 15px;
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .menu h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn {
+            background: #ffd700;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: #ffe44d;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .wallet-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: rgba(74, 74, 74, 0.8);
+            color: #fff;
+            border: 2px solid #666;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+        .wallet-button:hover {
+            background: rgba(102, 102, 102, 0.8);
+            border-color: #888;
+            transform: scale(1.05);
+        }
+        .wallet-button.connected {
+            background: rgba(46, 204, 113, 0.8);
+            border-color: #27ae60;
+        }
+
+        .leaderboard {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .leaderboard h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            color: #fff;
+            font-size: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 4px 0;
+            border-radius: 5px;
+        }
+        .leaderboard-item:nth-child(1) { background: rgba(255, 215, 0, 0.2); }
+        .leaderboard-item:nth-child(2) { background: rgba(192, 192, 192, 0.2); }
+        .leaderboard-item:nth-child(3) { background: rgba(205, 127, 50, 0.2); }
+        .leaderboard-item span:first-child {
+            color: #ffd700;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .leaderboard-item span:last-child {
+            color: #00ff88;
+        }
+
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 900px) {
+            .game-wrapper {
+                flex-direction: column;
+            }
+            
+            .side-panel {
+                order: 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="mobileOverlay" class="mobile-overlay">
+        <div class="mobile-message">
+            <i class="fas fa-car"></i>
+            <h2>PC Only Game</h2>
+            <p>This racing game is only available on desktop computers.</p>
+            <p>Please open it on your PC to play.</p>
+        </div>
+    </div>
+
+    <div class="game-container">
+<button id="walletButton" class="wallet-button" onclick="walletConnection.connectWallet()" style="position: absolute; top: 20px; right: 20px; padding: 12px 24px; background: linear-gradient(45deg, #ffd700, #ff3366); color: #fff; border: none; border-radius: 25px; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: bold; text-transform: uppercase; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2); display: flex; align-items: center; gap: 8px;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(255, 215, 0, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(255, 215, 0, 0.2)'"><i class="fas fa-wallet"></i> Connect Wallet</button>
+<a href="../../index.html" class="back-button" style="position: absolute; top: 20px; left: 20px; padding: 12px 24px; background: linear-gradient(45deg, #ffd700, #ff3366); color: #fff; border: none; border-radius: 25px; text-decoration: none; font-family: inherit; font-size: 14px; font-weight: bold; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2); display: flex; align-items: center; gap: 8px;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(255, 215, 0, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(255, 215, 0, 0.2)'"><i class="fas fa-arrow-left"></i> Back</a>
+        <div class="game-wrapper">
+            <div class="side-panel">
+                <div class="score-container">
+                    <div class="score">
+                        <i class="fas fa-star"></i>
+                        Score: <span id="score">0</span>
+                    </div>
+                    <div class="lives">
+                        <i class="fas fa-heart"></i>
+                        Lives: <span id="lives">3</span>
+                    </div>
+                    <div class="high-score">
+                        <i class="fas fa-trophy"></i>
+                        High Score: <span id="highScore">0</span>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <h3>Controls</h3>
+                    <div class="control-row">
+                        <button class="control-btn" data-key="KeyA">A</button>
+                        <button class="control-btn" data-key="KeyD">D</button>
+                    </div>
+                </div>
+
+                <div class="leaderboard">
+                    <h3>Top Players</h3>
+                    <div class="leaderboard-item"><span>1</span> <span>0x000...000</span> <span>0</span></div>
+                    <div class="leaderboard-item"><span>2</span> <span>0x000...000</span> <span>0</span></div>
+                    <div class="leaderboard-item"><span>3</span> <span>0x000...000</span> <span>0</span></div>
+                    <div class="leaderboard-item"><span>4</span> <span>0x000...000</span> <span>0</span></div>
+                    <div class="leaderboard-item"><span>5</span> <span>0x000...000</span> <span>0</span></div>
+                </div>
+            </div>
+
+            <div class="game-board">
+                <canvas id="gameCanvas"></canvas>
+                <div class="overlay" id="overlay">
+                    <div class="menu">
+                        <h1>
+                            <i class="fas fa-flag-checkered"></i>
+                            PIXEL RACER
+                        </h1>
+                        <button id="startGame" class="btn">
+                            <i class="fas fa-play"></i>
+                            Start Race
+                        </button>
+                        <div class="instructions">
+                            <p><i class="fas fa-keyboard"></i> Use A/D keys to move left/right</p>
+                            <p><i class="fas fa-car"></i> Dodge the oncoming traffic!</p>
+                            <p><i class="fas fa-heart"></i> You have 3 lives - drive carefully!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio elements -->
+    <audio id="gameMusic" loop>
+        <source src="Speed.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="crashSound">
+        <source src="Dead.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Scripts -->
+    <script src="js/wallet.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

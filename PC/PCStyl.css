@@ -1,0 +1,94 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #1a1a1a, #333333); /* Gradient background */
+    font-family: 'Arial', sans-serif; /* Font style */
+}
+
+.frame {
+    border: 5px solid #00ff00; /* Bright green frame */
+    border-radius: 20px; /* More rounded corners */
+    padding: 40px; /* Increased padding */
+    background-color: rgba(30, 30, 30, 0.9); /* Darker background for the frame */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth hover effect */
+}
+
+.frame:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 12px 40px rgba(0, 255, 0, 0.5); /* Enhanced shadow on hover */
+}
+
+h1 {
+    color: #00ff00; /* Bright green title color */
+    font-size: 36px; /* Larger font size */
+    margin: 10px 0; /* Margin for spacing */
+}
+
+p {
+    color: #ffffff; /* White text color */
+    font-size: 20px; /* Adjusted font size */
+    margin: 5px 0; /* Margin for spacing */
+}
+
+.icon {
+    font-size: 80px; /* Larger icon size */
+    color: #00ff00; /* Icon color */
+}
+
+/* Button styles */
+button {
+    background-color: #00ff00; /* Bright green button */
+    color: black; /* Black text */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+}
+
+button:hover {
+    background-color: #00cc00; /* Darker green on hover */
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+}
+
+.modal-content {
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #00ff00; /* Bright green border */
+    width: 80%; /* Could be more or less, depending on screen size */
+    border-radius: 10px; /* Rounded corners */
+    background-color: rgba(0, 0, 0, 0.95); /* Darker background for modal */
+}
+
+.close {
+    color: #ffffff; /* White close button */
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: red; /* Change color on hover */
+    text-decoration: none;
+    cursor: pointer;
+}

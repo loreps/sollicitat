@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Snake - Arcade Games</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="mobileOverlay" class="mobile-overlay">
+        <div class="mobile-message">
+            <i class="fas fa-desktop"></i>
+            <h2>PC Only Game</h2>
+            <p>This game is only available on desktop computers.</p>
+            <p>Please open it on your PC to play.</p>
+        </div>
+    </div>
+    <div class="game-container">
+        <div class="ranking-bar">
+            <div class="rank-item">
+                <i class="fas fa-crown"></i>
+                <span class="wallet">0x000...000</span>
+                <span class="score">0</span>
+            </div>
+            <div class="rank-item">
+                <i class="fas fa-medal"></i>
+                <span class="wallet">0x000...000</span>
+                <span class="score">0</span>
+            </div>
+            <div class="rank-item">
+                <i class="fas fa-trophy"></i>
+                <span class="wallet">0x000...000</span>
+                <span class="score">0</span>
+            </div>
+            <div class="rank-item">
+                <i class="fas fa-star"></i>
+                <span class="wallet">0x000...000</span>
+                <span class="score">0</span>
+            </div>
+            <div class="rank-item">
+                <i class="fas fa-award"></i>
+                <span class="wallet">0x000...000</span>
+                <span class="score">0</span>
+            </div>
+        </div>
+        <button id="walletButton" class="wallet-button" onclick="walletConnection.connectWallet()">Connect Wallet</button>
+        <a href="../../index.html" class="back-button">← Back</a>
+        
+        <audio id="gameMusic" loop>
+            <source src="SnakeRun.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="deadSound">
+            <source src="SnakeDead.mp3" type="audio/mpeg">
+        </audio>
+
+        
+        <div class="game-wrapper">
+            <div class="side-panel">
+                <div class="score-container">
+                    <div class="score">Score: <span id="score">0</span></div>
+                    <div class="lives">Lives: <span id="lives">3</span></div>
+                    <div class="high-score">High Score: <span id="highScore">0</span></div>
+                </div>
+                
+                <div class="controls">
+                    <h3>Controls</h3>
+                    <div class="control-row">
+                        <button class="control-btn" data-key="KeyW">W</button>
+                    </div>
+                    <div class="control-row">
+                        <button class="control-btn" data-key="KeyA">A</button>
+                        <button class="control-btn" data-key="KeyS">S</button>
+                        <button class="control-btn" data-key="KeyD">D</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-board">
+                <canvas id="gameCanvas"></canvas>
+                <div class="continue-overlay" id="continueOverlay">
+                    <div class="menu">
+                        <h1>GAME OVER</h1>
+                        <button id="continueGame" class="btn">Continue</button>
+                    </div>
+                </div>
+                <div class="overlay" id="overlay">
+                    <div class="menu">
+                        <h1>SNAKE</h1>
+                        <button id="startGame" class="btn">Start Game</button>
+                        <div class="instructions">
+                            <p>Use WASD keys to control the snake</p>
+                            <p>You have 3 lives - don't waste them!</p>
+                            <p>Purple apple: -50% of your score!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    if (!CanvasRenderingContext2D.prototype.roundRect) {
+        CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, radius) {
+            if (width < 2 * radius) radius = width / 2;
+            if (height < 2 * radius) radius = height / 2;
+            this.beginPath();
+            this.moveTo(x + radius, y);
+            this.arcTo(x + width, y, x + width, y + height, radius);
+            this.arcTo(x + width, y + height, x, y + height, radius);
+            this.arcTo(x, y + height, x, y, radius);
+            this.arcTo(x, y, x + width, y, radius);
+            this.closePath();
+            return this;
+        };
+    }
+    </script>
+    <script src="js/wallet.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

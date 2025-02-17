@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sollicitat Games</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        function isMobileDevice() {
+            return /Mobi|Android/i.test(navigator.userAgent);
+        }
+
+        window.onload = function() {
+            if (isMobileDevice()) {
+                // Open the PC.html modal
+                window.open('PC/PC.html', '_blank');
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>SOLLICITAT</h1>
+        <div class="games-grid">
+            <div class="game-card" onclick="location.href='games/tetris/index.html'">
+                <div class="game-icon tetris-icon">
+                    <i class="fas fa-th-large"></i>
+                </div>
+                <h2>Tetris</h2>
+                <p>Classic block-stacking puzzle game</p>
+                <div class="game-controls">Controls: Arrow keys</div>
+            </div>
+            
+            <div class="game-card" onclick="location.href='games/snake/index.html'">
+                <div class="game-icon snake-icon">
+                    <i class="fas fa-apple-alt"></i>
+                </div>
+                <h2>Snake</h2>
+                <p>Classic snake game with power-ups</p>
+                <div class="game-controls">Controls: WASD keys</div>
+            </div>
+            
+            <div class="game-card" onclick="location.href='games/care/index.html'">
+                <div class="game-icon racing-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <h2>Pixel Racer</h2>
+                <p>Fast-paced racing action game</p>
+                <div class="game-controls">Controls: A/D keys</div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>All games are optimized for desktop play</p>
+        </footer>
+    </div>
+</body>
+</html>

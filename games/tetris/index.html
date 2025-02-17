@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris - Arcade Games</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .wallet-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #4a4a4a;
+            color: #fff;
+            border: 2px solid #666;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        .wallet-button:hover {
+            background: #666;
+            border-color: #888;
+        }
+        .wallet-button.connected {
+            background: #2ecc71;
+            border-color: #27ae60;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: #4a4a4a;
+            color: #fff;
+            border: 2px solid #666;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: monospace;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background: #666;
+            border-color: #888;
+        }
+        .game-container {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+        .leaderboard {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 200px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .leaderboard h3 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            text-transform: uppercase;
+        }
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .leaderboard-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        .rank {
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffd700;
+            color: #000;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+        .player-info {
+            flex: 1;
+        }
+        .player-name {
+            color: #fff;
+            margin-bottom: 3px;
+        }
+        .player-score {
+            color: #00ff88;
+            font-size: 0.9em;
+        }
+        .game-content {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button id="walletButton" class="wallet-button" onclick="walletConnection.connectWallet()">Connect Wallet</button>
+        <a href="../../index.html" class="back-button">← Back</a>
+        
+        <div class="game-container">
+            <div class="leaderboard">
+                <h3>Top 5 Players</h3>
+                <div class="leaderboard-list">
+                    <div class="leaderboard-item">
+                        <div class="rank">1</div>
+                        <div class="player-info">
+                            <div class="player-name">Player 1</div>
+                            <div class="player-score">10000</div>
+                        </div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="rank">2</div>
+                        <div class="player-info">
+                            <div class="player-name">Player 2</div>
+                            <div class="player-score">8500</div>
+                        </div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="rank">3</div>
+                        <div class="player-info">
+                            <div class="player-name">Player 3</div>
+                            <div class="player-score">7200</div>
+                        </div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="rank">4</div>
+                        <div class="player-info">
+                            <div class="player-name">Player 4</div>
+                            <div class="player-score">6100</div>
+                        </div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="rank">5</div>
+                        <div class="player-info">
+                            <div class="player-name">Player 5</div>
+                            <div class="player-score">5000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-content">
+                <div class="game-info">
+                    <div class="score">Score: <span id="score">0</span></div>
+                    <div class="level">Level: <span id="level">1</span></div>
+                </div>
+                
+                <div id="game-board"></div>
+                
+                <div class="controls">
+                    <button onclick="startGame()">Start</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio id="gameMusic" loop>
+        <source src="tetris.mp3" type="audio/mpeg">
+    </audio>
+    <script src="wallet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
